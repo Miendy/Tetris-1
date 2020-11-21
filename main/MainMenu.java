@@ -39,22 +39,18 @@ public class MainMenu extends JPanel {
         this.exit = new JButton("EXIT");
         this.exit.setFont(Main.mainFont);
 
-        this.play.setBounds(Main.JFRAME_WIDTH / 2 - this.buttonsWidth / 2, Main.JFRAME_HEIGHT / 2 +
-                        this.buttonsHeight - this.yOffset,
-                this.buttonsWidth, this.buttonsHeight);
+        this.play.setBounds(Main.JFRAME_WIDTH / 2 - this.buttonsWidth / 2, Main.JFRAME_HEIGHT / 2 + this.buttonsHeight - this.yOffset, this.buttonsWidth, this.buttonsHeight);
 
-        this.highscores.setBounds(Main.JFRAME_WIDTH / 2 - this.buttonsWidth / 2, this.play.getY() + this.spacing,
-                this.buttonsWidth, this.buttonsHeight);
+        this.highscores.setBounds(Main.JFRAME_WIDTH / 2 - this.buttonsWidth / 2, this.play.getY() + this.spacing, this.buttonsWidth, this.buttonsHeight);
 
-        this.options.setBounds(Main.JFRAME_WIDTH / 2 - this.buttonsWidth / 2, this.highscores.getY() + this.spacing,
-                this.buttonsWidth, this.buttonsHeight);
+        this.options.setBounds(Main.JFRAME_WIDTH / 2 - this.buttonsWidth / 2, this.highscores.getY() + this.spacing, this.buttonsWidth, this.buttonsHeight);
         
-        this.exit.setBounds(Main.JFRAME_WIDTH / 2 - this.buttonsWidth / 2, this.highscores.getY() + this.spacing,
-                this.buttonsWidth, this.buttonsHeight);
+        this.exit.setBounds(Main.JFRAME_WIDTH / 2 - this.buttonsWidth / 2, this.options.getY() + this.spacing, this.buttonsWidth, this.buttonsHeight);
 
         this.play.addActionListener(e -> Main.loadScene(this.frame, new Board(this.frame)));
-        this.play.addActionListener(e -> Main.loadScene(this.frame, new HighScores()));
-        this.play.addActionListener(e -> Main.loadScene(this.frame, new Options()));
+        this.highscores.addActionListener(e -> Main.loadScene(this.frame, new HighScores()));
+        this.options.addActionListener(e -> Main.loadScene(this.frame, new Options()));
+        this.exit.addActionListener(e -> Main.loadScene(this.frame, new Exit()));
 
         super.add(this.play);
         super.add(this.highscores);

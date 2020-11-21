@@ -71,7 +71,7 @@ public class Board extends JPanel implements Runnable{
         Board.pause = false;
 
         try {
-            this.background = ImageIO.read(this.getClass().getResource("/backgrounds/background1.png"));
+            this.background = ImageIO.read(this.getClass().getResource("/backgrounds/background2.png"));
             this.template = ImageIO.read(this.getClass().getResource("/backgrounds/template.png"));
         } catch (IOException e) {
             e.printStackTrace();
