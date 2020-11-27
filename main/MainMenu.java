@@ -48,8 +48,8 @@ public class MainMenu extends JPanel {
         this.exit.setBounds(Main.JFRAME_WIDTH / 2 - this.buttonsWidth / 2, this.options.getY() + this.spacing, this.buttonsWidth, this.buttonsHeight);
 
         this.play.addActionListener(e -> Main.loadScene(this.frame, new Board(this.frame)));
-        this.highscores.addActionListener(e -> Main.loadScene(this.frame, new HighScores()));
-        this.options.addActionListener(e -> Main.loadScene(this.frame, new Options()));
+        this.highscores.addActionListener(e -> Main.loadScene(this.frame, new HighScores(this.frame)));
+        this.options.addActionListener(e -> Main.loadScene(this.frame, new Options(this.frame)));
         this.exit.addActionListener(e -> Main.loadScene(this.frame, new Exit()));
 
         super.add(this.play);
