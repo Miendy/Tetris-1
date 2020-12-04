@@ -9,36 +9,39 @@ import java.io.IOException;
 public class HighScores extends JPanel {
     private BufferedImage background;
     private BufferedImage template;
-    private JTextArea textarea;
+    private JLabel label;
 
 
 
     public HighScores(JFrame frame){
         super.setBackground(Color.GREEN);
-        this.textarea = new JTextArea("High Scores");
-        super.add(this.textarea);
+        JPanel panel = new JPanel(new BorderLayout());
+        this.label = new JLabel("High Scores");
+        //this.label.setEditable(false);
+        //this.label.setSize(100, 20);
+        //super.add(this.label);
+        panel.add(label, BorderLayout.CENTER);
 
-        String[] columnNames = {"First Name",
-                "Last Name",
-                "Sport",
-                "# of Years",
-                "Vegetarian"};
+        String[] columnNames = {"Position", "Name", "Score"};
 
         Object[][] data = {
-                {"Kathy", "Smith",
-                        "Snowboarding", 5, Boolean.FALSE},
-                {"John", "Doe",
-                        "Rowing", 3, Boolean.TRUE},
-                {"Sue", "Black",
-                        "Knitting", 2, Boolean.FALSE},
-                new Object[]{"Jane", "White",
-                        "Speed reading", 20, Boolean.TRUE},
-                {"Joe", "Brown",
-                        "Pool", 10, Boolean.FALSE}
+                {1, "Player1", 8756},
+
+                {2, "Player2", 865},
+
+                {3, "Player3", 534},
+
+                {4, "Player4", 98},
+
+                {5, "Player5", 8}
         };
 
+
         JTable table = new JTable(data, columnNames);
-        super.add(table);
+        JScrollPane scrollPane = new JScrollPane(table);
+        table.setFillsViewportHeight(true);
+        panel.add(scrollPane);
+        super.add(scrollPane);
 
     }
 }
