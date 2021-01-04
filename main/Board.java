@@ -9,6 +9,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.Writer;
+import java.io.File;
 
 public class Board extends JPanel implements Runnable{
 
@@ -41,7 +45,7 @@ public class Board extends JPanel implements Runnable{
     private int boardMatrix [][];
     private int fourNextTetrominos [][][];
 
-    private int score;
+    private int score; // This is score
     private int level;
     private int speed;
     private int linesScored;
@@ -104,6 +108,7 @@ public class Board extends JPanel implements Runnable{
         paintBoardLines(g);
         Main.paintInfo(g);
         paintLoose(g);
+
     }
 
     @Override
@@ -245,6 +250,20 @@ public class Board extends JPanel implements Runnable{
             g.setFont(Main.loose);
             g.setColor(Color.WHITE);
             g.drawString("You Loose", (int)(Main.JFRAME_WIDTH / 2.5), Main.JFRAME_HEIGHT / 2);
+        }
+
+//        saveScore();
+
+    }
+
+    private void saveScore(){
+        Writer output;
+        try {
+            output = new BufferedWriter(new FileWriter("scores.txt", true));  //clears file every time
+            output.append("Player Score:" + score); // Player name, player score
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -601,8 +620,16 @@ public class Board extends JPanel implements Runnable{
         back.setBounds(Main.JFRAME_WIDTH / 2 - buttonsWidth / 2, retry.getY() + spacing, buttonsWidth, buttonsHeight);
         back.addActionListener(e -> Main.loadScene(this.frame, new MainMenu(this.frame)));
 
+        JButton save = new JButton("SAVE");
+        save.setFont(Main.mainFont);
+
+        save.setBounds(Main.JFRAME_WIDTH / 2 - buttonsWidth / 2, retry.getY() + spacing*2,
+                buttonsWidth, buttonsHeight);
+        save.addActionListener(e -> this.saveScore());
+
         super.setLayout(null);
         super.add(retry);
         super.add(back);
+        super.add(save);
     }
 }
