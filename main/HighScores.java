@@ -10,6 +10,7 @@ public class HighScores extends JPanel {
     private BufferedImage background;
     private BufferedImage template;
     private JLabel label;
+    private JFrame frame;
 
 
     public HighScores(JFrame frame){
@@ -20,7 +21,6 @@ public class HighScores extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
 
         //JFrame frame1 = new JFrame("High Score");

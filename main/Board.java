@@ -3,10 +3,13 @@ package main;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Random;
 import java.io.BufferedWriter;
@@ -256,11 +259,16 @@ public class Board extends JPanel implements Runnable{
 
     }
 
-    private void saveScore(){
+    private void saveScore(String playerName){
         Writer output;
+
+        if(playerName.length() == 0){
+            playerName = "Unknown Player";
+        }
+
         try {
             output = new BufferedWriter(new FileWriter("scores.txt", true));  //clears file every time
-            output.append("Player Score:" + score); // Player name, player score
+            output.append(playerName + ": " + score + "\n"); // Player name, player score
             output.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -607,6 +615,10 @@ public class Board extends JPanel implements Runnable{
         int yOffset = Main.JFRAME_HEIGHT / 3;
         int spacing = (int)(buttonsHeight * 1.5f);
 
+
+        JTextField usertext;
+
+
         JButton retry = new JButton("RETRY");
         retry.setFont(Main.mainFont);
 
@@ -620,16 +632,29 @@ public class Board extends JPanel implements Runnable{
         back.setBounds(Main.JFRAME_WIDTH / 2 - buttonsWidth / 2, retry.getY() + spacing, buttonsWidth, buttonsHeight);
         back.addActionListener(e -> Main.loadScene(this.frame, new MainMenu(this.frame)));
 
+        JLabel lable = new JLabel("Enter Your Name:");
+        lable.setBounds(Main.JFRAME_WIDTH / 2 - buttonsWidth / 2, retry.getY() + spacing*2-50, buttonsWidth, buttonsHeight);
+        lable.setForeground(Color.WHITE);
+
+        JTextField userText = new JTextField(100);
+        userText.setName("Enter your name:");
+        userText.setBounds(Main.JFRAME_WIDTH / 2 - buttonsWidth / 2, retry.getY() + spacing*3, buttonsWidth, buttonsHeight-20);
+        //userText.addActionListener(e -> this.saveScore());
+
         JButton save = new JButton("SAVE");
         save.setFont(Main.mainFont);
+        save.setBounds(Main.JFRAME_WIDTH / 2 - buttonsWidth / 2, retry.getY() + spacing*4-50, buttonsWidth, buttonsHeight);
+        save.addActionListener(e -> this.saveScore(userText.getText()));
+        save.addActionListener(e -> Main.loadScene(this.frame, new MainMenu(this.frame)));
 
-        save.setBounds(Main.JFRAME_WIDTH / 2 - buttonsWidth / 2, retry.getY() + spacing*2,
-                buttonsWidth, buttonsHeight);
-        save.addActionListener(e -> this.saveScore());
+
 
         super.setLayout(null);
         super.add(retry);
         super.add(back);
         super.add(save);
+        super.add(userText);
+        super.add(lable);
     }
+
 }
