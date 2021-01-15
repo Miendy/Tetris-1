@@ -4,7 +4,12 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class HighScores extends JPanel {
     private BufferedImage background;
@@ -23,28 +28,43 @@ public class HighScores extends JPanel {
         }
 
 
-        //JFrame frame1 = new JFrame("High Score");
         JPanel panel = new JPanel(new BorderLayout());
         this.label = new JLabel("High Scores");
-        //this.label.setEditable(false);
-        //this.label.setSize(100, 20);
-        //super.add(this.label);
-        //panel.add(label, BorderLayout.CENTER);
+
         JPanel outerPanel = new JPanel(new BorderLayout());
         JPanel topPanel = new JPanel(new BorderLayout());
 
         String[] columnNames = {"Position", "Name", "Score"};
 
+        ArrayList<String> playerNames = new ArrayList<String>();
+        ArrayList<Integer> playerScores = new ArrayList<Integer>();
+
+        try(BufferedReader br = new BufferedReader(new FileReader("scores.txt"))) {
+            for(String line; (line = br.readLine()) != null; ) {
+                String[] scores = line.split(":");
+                String playerName = scores[0];
+                playerNames.add(playerName);
+                int playerScore = Integer.parseInt(scores[1]);
+                playerScores.add(playerScore);
+                //System.out.println(playerName+" == "+ playerScore);
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Object[][] data = {
-                {1, "Player1", 8756},
+                {1, playerNames.get(0), playerScores.get(0)},
 
-                {2, "Player2", 865},
+                {2, playerNames.get(1), playerScores.get(1)},
 
-                {3, "Player3", 534},
+                {3, playerNames.get(2), playerScores.get(2)},
 
-                {4, "Player4", 98},
+                {4, playerNames.get(3), playerScores.get(3)},
 
-                {5, "Player5", 8}
+                {5, playerNames.get(4), playerScores.get(4)}
         };
 
         
@@ -55,35 +75,10 @@ public class HighScores extends JPanel {
         topPanel.add(this.label, BorderLayout.PAGE_START);
         topPanel.add(scrollPane, BorderLayout.CENTER);
 
-
-        //panel.add(scrollPane);
-        //scrollPane.setSize(100,100);
-
         outerPanel.add(topPanel);
         super.add(outerPanel);
 
-        //super.add(scrollPane);
-        //frame.add(panel);
-        //super.add(frame);
 
-//        JFrame frame = new JFrame("Play");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        JPanel outerPanel = new JPanel(new BorderLayout());
-//        JPanel topPanel = new JPanel(new BorderLayout());
-//        JLabel label = new JLabel("Enter proper data: ");
-//        xxJButton btn = new JButton("Click");
-//        String data [][] = new String [100][4];
-//        String column[]={"No.","Player 1","Player 2","Strategy"};
-//        JTable table = new JTable(data, column);
-//        JScrollPane sp=new JScrollPane(table);
-//        topPanel.add(label, BorderLayout.PAGE_START);
-//        topPanel.add(sp, BorderLayout.CENTER);
-//        xxtopPanel.add(btn, BorderLayout.PAGE_END);
-//        outerPanel.add(topPanel);
-//        frame.add(outerPanel);
-//        frame.pack();
-//        frame.setLocationRelativeTo(null);
-//        frame.setVisible(true);
 
     }
 

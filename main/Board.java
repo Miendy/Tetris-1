@@ -268,7 +268,7 @@ public class Board extends JPanel implements Runnable{
 
         try {
             output = new BufferedWriter(new FileWriter("scores.txt", true));  //clears file every time
-            output.append(playerName + ": " + score + "\n"); // Player name, player score
+            output.append(playerName + ":" + score + "\n"); // Player name, player score
             output.close();
         } catch (IOException e) {
             e.printStackTrace();
