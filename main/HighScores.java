@@ -10,11 +10,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class HighScores extends JPanel {
     private BufferedImage background;
     private BufferedImage template;
-    private JLabel label;
+    private final JLabel label;
     private JFrame frame;
 
 
@@ -36,38 +38,63 @@ public class HighScores extends JPanel {
 
         String[] columnNames = {"Position", "Name", "Score"};
 
-        ArrayList<String> playerNames = new ArrayList<String>();
-        ArrayList<Integer> playerScores = new ArrayList<Integer>();
+//        ArrayList<String> playerNames = new ArrayList<String>();
+//        ArrayList<Integer> playerScores = new ArrayList<Integer>();
+
+        Map<String, Integer> ScoreMap = new TreeMap<String, Integer>();
 
         try(BufferedReader br = new BufferedReader(new FileReader("scores.txt"))) {
             for(String line; (line = br.readLine()) != null; ) {
                 String[] scores = line.split(":");
                 String playerName = scores[0];
-                playerNames.add(playerName);
+//                playerNames.add(playerName);
                 int playerScore = Integer.parseInt(scores[1]);
-                playerScores.add(playerScore);
+//                playerScores.add(playerScore);
                 //System.out.println(playerName+" == "+ playerScore);
-
+                ScoreMap.put(playerName, playerScore);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Object[][] data = {
-                {1, playerNames.get(0), playerScores.get(0)},
+//        Object[][] data = {
+//                {1, playerNames.get(0), playerScores.get(0)},
+//
+//                {2, playerNames.get(1), playerScores.get(1)},
+//
+//                {3, playerNames.get(2), playerScores.get(2)},
+//
+//                {4, playerNames.get(3), playerScores.get(3)},
+//
+//                {5, playerNames.get(4), playerScores.get(4)}
+//        };
 
-                {2, playerNames.get(1), playerScores.get(1)},
+        Object[][] data = new Object[ScoreMap.size()][3];
 
-                {3, playerNames.get(2), playerScores.get(2)},
+//        for(int i = 0; i<playerScores.size(); i++){
+//            data[i][0] = i+1;
+//            data[i][1] = playerNames.get(i);
+//            data[i][2] = playerScores.get(i);
+//        }
 
-                {4, playerNames.get(3), playerScores.get(3)},
+        int i = 0;
+        for(Map.Entry<String, Integer> entry : ScoreMap.entrySet()){
+            data[i][0] = i+1;
+            data[i][1] = entry.getKey();
+            data[i][2] = entry.getValue();
+        }
 
-                {5, playerNames.get(4), playerScores.get(4)}
-        };
+//        for(int i = 0; i<ScoreMap.size(); i++){
+//            data[i][0] = i+1;
+//            data[i][1] = ScoreMap.getKeyAt(i);
+//            data[i][2] = ScoreMap.getValueAt(i);
+//        }
 
-        
+
+        JButton button = new JButton("Back");
+        button.addActionListener(e -> Main.loadScene(this.frame, new MainMenu(this.frame)));
+        super.add(button);
+
         JTable table = new JTable(data, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
         //table.setFillsViewportHeight(true);
