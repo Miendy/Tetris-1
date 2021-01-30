@@ -38,24 +38,49 @@ public class HighScores extends JPanel {
 
         String[] columnNames = {"Position", "Name", "Score"};
 
-//        ArrayList<String> playerNames = new ArrayList<String>();
-//        ArrayList<Integer> playerScores = new ArrayList<Integer>();
+        ArrayList<String> playerNames = new ArrayList<String>();
+        ArrayList<Integer> playerScores = new ArrayList<Integer>();
 
-        Map<String, Integer> ScoreMap = new TreeMap<String, Integer>();
+//        Map<String, Integer> ScoreMap = new TreeMap<String, Integer>();
 
         try(BufferedReader br = new BufferedReader(new FileReader("scores.txt"))) {
             for(String line; (line = br.readLine()) != null; ) {
                 String[] scores = line.split(":");
                 String playerName = scores[0];
-//                playerNames.add(playerName);
+                playerNames.add(playerName);
                 int playerScore = Integer.parseInt(scores[1]);
-//                playerScores.add(playerScore);
+                playerScores.add(playerScore);
                 //System.out.println(playerName+" == "+ playerScore);
-                ScoreMap.put(playerName, playerScore);
+//                ScoreMap.put(playerName, playerScore);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        System.out.println(playerNames);
+        System.out.println(playerScores);
+
+        ArrayList<String> playerNames2 = new ArrayList<String>();
+        ArrayList<Integer> playerScores2 = new ArrayList<Integer>();
+
+
+        // Ordering based on score
+        for(int i = 0; i<playerScores.size()-1; i++){
+            int max_value_index = 0;
+            for(int j = 0; j<playerScores.size()-i-1; j++){
+                int temp_score = playerScores.get(j);
+                String temp_name = playerNames.get(j);
+                if (playerScores.get(j)<playerScores.get(j+1)){
+                    playerScores.set(j, playerScores.get(j+1));
+                    playerScores.set(j+1, temp_score);
+
+                    playerNames.set(j, playerNames.get(j+1));
+                    playerNames.set(j+1, temp_name);
+                }
+            }
+        }
+
 
 //        Object[][] data = {
 //                {1, playerNames.get(0), playerScores.get(0)},
@@ -69,20 +94,25 @@ public class HighScores extends JPanel {
 //                {5, playerNames.get(4), playerScores.get(4)}
 //        };
 
-        Object[][] data = new Object[ScoreMap.size()][3];
+        Object[][] data = new Object[playerNames.size()][3];
 
-//        for(int i = 0; i<playerScores.size(); i++){
-//            data[i][0] = i+1;
-//            data[i][1] = playerNames.get(i);
-//            data[i][2] = playerScores.get(i);
-//        }
-
-        int i = 0;
-        for(Map.Entry<String, Integer> entry : ScoreMap.entrySet()){
+        for(int i = 0; i<playerScores.size(); i++){
             data[i][0] = i+1;
-            data[i][1] = entry.getKey();
-            data[i][2] = entry.getValue();
+            data[i][1] = playerNames.get(i);
+            data[i][2] = playerScores.get(i);
         }
+
+//        int i = 0;
+//        for(Map.Entry<String, Integer> entry : ScoreMap.entrySet()){
+//            data[i][0] = i+1;
+//            data[i][1] = entry.getKey();
+//            data[i][2] = entry.getValue();
+//            System.out.println(entry.getKey() +" -- "+entry.getValue());
+//        }
+//
+//        for(i = 0; i< data.length; i++){
+//            System.out.println(data[i][0]+" == "+data[i][1]+" == "+data[i][2]);
+//        }
 
 //        for(int i = 0; i<ScoreMap.size(); i++){
 //            data[i][0] = i+1;
